@@ -1,18 +1,17 @@
 import toast from "react-hot-toast";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import Hero from "./components/Hero";
-
+import TechnologySection from "./components/TechnologySection";
+import Footer from "./components/Footer";
 function App() {
  
 
   return (
     <div>
-       
-      {/* <h1 className="bg-blue-500 or text-xl">hellow react</h1> */}
      <Navbar/>
      <Hero/>
+      <TechnologySection />
       <Footer/>
       {/* <Toaster /> */}
     </div>
