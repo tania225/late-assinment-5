@@ -43,9 +43,9 @@ const TechnologyCard = ({ technology, addToStack, isAdded }) => {
       <button
         onClick={() => addToStack(technology)}
         disabled={isAdded}
-        className="w-full flex justify-center items-center gap-2 border border-blue-500 text-blue-600 py-2 rounded-md hover:bg-blue-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300"
+        className="w-full flex justify-center items-center gap-2 bg-black  text-white py-2 rounded-md hover:bg-blue-500 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300"
       >
-        <Plus size={16} />
+       
         {isAdded ? "Added" : "Add to Stack"}
       </button>
 

@@ -1,98 +1,79 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import TechnologyCard from "./TechnologyCard";
+import YourStack from "./YourStack";
 
 const TechnologySection = () => {
-
   const [technologies, setTechnologies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [stack, setStack] = useState([]);
 
+  // Fetch JSON data
   useEffect(() => {
-
-    const fetchTechnologies = async () => {
-
-      try {
-        const response = await fetch("/technologies.json");
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch technologies");
-        }
-
-        const data = await response.json();
-
-        setTechnologies(data);
-
-      } catch (error) {
-        setError(error.message);
-
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTechnologies();
-
+    fetch("/technologies.json")
+      .then((response) => response.json())
+      .then((data) => setTechnologies(data))
+      .catch((error) => console.log(error));
   }, []);
 
-  if (loading) {
-    return <p className="py-10 text-center">Loading technologies...</p>;
-  }
+  // Add technology
+  const addToStack = (technology) => {
+    setStack([...stack, technology]);
+  };
 
-  if (error) {
-    return <p className="py-10 text-center text-red-500">{error}</p>;
-  }
+  // Remove one technology
+  const removeFromStack = (id) => {
+    const updatedStack = stack.filter(
+      (technology) => technology.id !== id
+    );
+
+    setStack(updatedStack);
+  };
+
+  // Remove all technologies
+  const removeAll = () => {
+    setStack([]);
+  };
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16">
+    <section className="bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4">
 
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold mb-8">
           Explore the Technologies
         </h2>
 
-        <p className="mt-2 text-gray-500">
-          Pick technologies to build your ideal development stack.
-        </p>
-      </div>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Technology cards */}
+          <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
 
-        {technologies.map((technology) => (
+            {technologies.map((technology) => {
+              const isAdded = stack.some(
+                (item) => item.id === technology.id
+              );
 
-          <div key={technology.id} className="rounded-xl border p-5">
-
-            <img
-              src={technology.icon}
-              alt={technology.name}
-              className="mb-4 h-10 w-10 object-contain"
-            />
-
-            <h3 className="text-lg font-bold">
-              {technology.name}
-            </h3>
-
-            <p className="my-3 text-sm text-gray-500">
-              {technology.description}
-            </p>
-
-            <div className="flex justify-between text-xs text-gray-500">
-              <span>{technology.category}</span>
-              <span>{technology.difficulty}</span>
-            </div>
-
-            <p className="mt-3 text-sm">
-              ⭐ {technology.rating}
-            </p>
-
-            <span className="mt-3 inline-block rounded-full bg-blue-50 px-3 py-1 text-xs text-blue-600">
-              {technology.badge}
-            </span>
+              return (
+                <TechnologyCard
+                  key={technology.id}
+                  technology={technology}
+                  addToStack={addToStack}
+                  isAdded={isAdded}
+                />
+              );
+            })}
 
           </div>
 
-        ))}
+          {/* Your Stack */}
+          <div>
+            <YourStack
+              stack={stack}
+              removeFromStack={removeFromStack}
+              removeAll={removeAll}
+            />
+          </div>
 
+        </div>
       </div>
-
     </section>
   );
 };
