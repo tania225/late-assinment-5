@@ -1,4 +1,4 @@
-import toast from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -14,6 +14,7 @@ function App() {
       <TechnologySection />
       <Footer/>
       {/* <Toaster /> */}
+      <Toaster position="top-right" />
     </div>
   )
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import TechnologyCard from "./TechnologyCard";
 import YourStack from "./YourStack";
 
+
 const TechnologySection = () => {
   const [technologies, setTechnologies] = useState([]);
   const [stack, setStack] = useState([]);
